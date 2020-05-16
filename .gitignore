@@ -7,7 +7,7 @@ Firebase/ce_credential.json
 GoogleCloud/node_modules
 Firebase/node_modules
 GoogleCloud/package-lock.json
-Firebase/package.json
+Firebase/package-lock.json
 
 # IDE
 .idea

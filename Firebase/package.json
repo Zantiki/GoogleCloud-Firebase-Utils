@@ -1,0 +1,23 @@
+{
+  "name": "firebase",
+  "version": "1.0.0",
+  "description": "",
+  "main": "cloudStorage.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Zantiki/GoogleCloud-Firebase-Utils.git"
+  },
+  "author": "Sebastian Ikin",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Zantiki/GoogleCloud-Firebase-Utils/issues"
+  },
+  "homepage": "https://github.com/Zantiki/GoogleCloud-Firebase-Utils#readme",
+  "dependencies": {
+    "uuid": "latest",
+    "@google-cloud/storage": "latest"
+  }
+}
