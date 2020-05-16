@@ -10,11 +10,6 @@ var newStream = require('stream');
 
 //TODO: Fix stop and remove
 
-/*const app = express();
-app.use(cors({origin: true}));
-app.use(bodyParser.json());
-var server = https.createServer(options, app);*/
-
 let clients = [];
 let pyDocker = new docker();
 
