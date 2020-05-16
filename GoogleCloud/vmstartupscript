@@ -1,3 +1,3 @@
 # Todo: change to approriate names
-cd server_directory
+cd /projects/GoogleCloud-Firebase-Utils/GoogleCloud
 sudo nohup node dockerodeWebsocketServer.js
