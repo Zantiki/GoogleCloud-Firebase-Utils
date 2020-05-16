@@ -1,3 +1,17 @@
+
+
+# Auth
+Firebase/ce_credential.json
+
+# Lib
+GoogleCloud/node_modules
+Firebase/node_modules
+GoogleCloud/package-lock.json
+Firebase/package.json
+
+# IDE
+.idea
+
 # Logs
 logs
 *.log
