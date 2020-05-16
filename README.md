@@ -28,6 +28,28 @@ the Websocket protocol is implemented correctly.
 
 This repo tries to work around these issues and more.
 
+# Setup
+You need to generate a service account for each of the Google 
+Cloud services you use. Put the generated JSON files under Firebase.
+_ce_credential_ for Cloud Engine and _cs_crendential_ for Cloud Storage.
+
+Once you have started a new VM on cloud engine, clone this repo
+into the VM and run the _vminstall_ script under the GoogleCloud folder
+(or just copy the commands). To start the server run 
+```console
+sudo npm install
+sudo nohup node dockerodeWebsocketServer.js &
+```
+You can now close the ssh-terminal.
+Take note of the external IP-address the machine. You will need this 
+when implementing the _compileAndRun_ function in your Firebase server. 
+The VM server also runs over port 8080, so you need to open this port
+in the VMs network settings (just change the default http from 80 to 8080).
+
+If you wish to implement the _vmstartupscript_ make sure that you
+change to commands to match your file-structure. 
+ 
+
 #
 Written by Sebastian Ikin 16/05/2020
  
