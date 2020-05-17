@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/Zantiki/GoogleCloud-Firebase-Utils#readme",
   "dependencies": {
-    "uuid": "latest",
-    "@google-cloud/storage": "latest"
+    "@google-cloud/compute": "^1.2.0",
+    "@google-cloud/storage": "latest",
+    "ping": "^0.2.3",
+    "uuid": "latest"
   }
 }

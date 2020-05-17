@@ -1,6 +1,6 @@
 
 const Compute = require('@google-cloud/compute');
-const uuidv4 = require('uuid/v4');
+const uuidv4 = require('uuid');
 var ping = require('ping');
 
 const path = require('path');
@@ -20,6 +20,31 @@ async function pingVM(ip) {
     console.log("Pinging: "+ip);
     let msg = await ping.promise.probe(host);
     console.log("Connection: "+msg);
+}
+
+function getVMIP(vmName) {
+    let vms = [];
+    return compute.getVMs().then(function (data) {
+        vms = data[0];
+        console.log("got vms");
+        //console.log(vms);
+
+        if (vms.length > 0) {
+            vms.map(vm => {
+                console.log(vm);
+                if ((vm.metadata.name === vmName) && vm.metadata.status === "RUNNING") {
+                    console.log(vm.metadata.networkInterfaces[0].accessConfigs[0].natIP);
+                    return vm.metadata.networkInterfaces[0].accessConfigs[0].natIP;
+                }
+            })
+            return "no active vms";
+        }
+
+    }).catch(err => {
+        console.log(err);
+        return err.toString();
+    });
+
 }
 
 function connectAndCompile(ip, port, code){
@@ -104,8 +129,12 @@ async function deleteVM(vm_name) {
 }
 
 async function test(){
-    let name = await createVM("print('hello world!')");
+    //let name = await createVM("print('hello world!')");
    // await deleteVM(name);
+    console.log("running test");
+    getVMIP("custom-server");
 }
 
-module.exports = {createVM}
+test();
+
+module.exports = {createVM, getVMIP, connectAndCompile};

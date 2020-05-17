@@ -30,3 +30,12 @@ if(!process.env.FIREBASE_CONFIG){
 app.get("/test", (req, res) =>{
     res.send("success");
 });
+
+app.post("/code", (req, res) => {
+    console.log("method called");
+    vmHandler.getVMIP("custom-server").then(ip => {
+        vmHandler.connectAndCompile(ip, 8080, req.body.code)
+            .then(data => res.send({data: data.toString()}))
+            .catch(err => res.send(err.statusCode));
+    });
+});
