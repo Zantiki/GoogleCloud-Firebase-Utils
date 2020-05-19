@@ -2,7 +2,7 @@
 const Compute = require('@google-cloud/compute');
 const uuidv4 = require('uuid');
 var ping = require('ping');
-
+const path = require('net');
 const path = require('path');
 const serviceKey = path.join(__dirname, './ce_credential.json');
 
@@ -53,10 +53,25 @@ function getVMIP(vmName) {
 function connectAndCompile(ip, port, code){
     return new Promise(async (resolve, reject) => {
         console.log("Creating promise");
+
+        setTimeout(function () {
+            reject(new Error("VM connection timed out..."))
+        }, 60000);
+
         let ws = net.createConnection({port: port, host: ip}, () =>{
             console.log("response from vm");
             ws.write("GET / HTTP/1.0\r\n\r\n");
         });
+
+        ws.on('error', function (err) {
+            console.log(err);
+            reject(new Error("A VM-Error Occured..."));
+        });
+        /*ws.onerror = event => {
+            console.log("Socket error");
+            reject();
+        }*/
+
 
         ws.onopen = event => {
 
@@ -69,10 +84,6 @@ function connectAndCompile(ip, port, code){
             console.log("Disconnected");
         };
 
-        ws.onerror = event => {
-            console.log("Socket error");
-            return reject();
-        }
 
         ws.on('data', function (data) {
             console.log(data.toString());

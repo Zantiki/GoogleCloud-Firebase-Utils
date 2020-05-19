@@ -103,6 +103,10 @@ async function execute(command, container) {
     });
     return new Promise(async (resolve, reject) => {
         console.log("Creating promise");
+        setTimeout(function () {
+            reject(new Error("Compile timed out"));
+        }, 30000);
+
         await exec.start(async (err, stream) => {
             if (err) return reject();
             let message = '';
@@ -147,7 +151,15 @@ function compile(code, conn){
                         console.log("Connection lost");
                     }
 
-            });
+                })
+                .catch(err => {
+                    console.log(err);
+                    try {
+                        conn.write(err.message);
+                    } catch {
+                        console.log("Connection lost");
+                    }
+                });
         });
     }).then(container => {
         container.stop();

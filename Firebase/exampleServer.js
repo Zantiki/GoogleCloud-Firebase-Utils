@@ -3,6 +3,7 @@ let cors = require("cors");
 let bodyParser = require("body-parser");
 const functions = require("firebase-functions");
 const admin = require("firebase-admin");
+const vmHandler = require("./vmhandler");
 
 const app = express();
 app.use(cors({origin: true}));
@@ -34,8 +35,13 @@ app.get("/test", (req, res) =>{
 app.post("/code", (req, res) => {
     console.log("method called");
     vmHandler.getVMIP("custom-server").then(ip => {
+        console.log("Ip on server: " + ip);
         vmHandler.connectAndCompile(ip, 8080, req.body.code)
-            .then(data => res.send({data: data.toString()}))
-            .catch(err => res.send(err.statusCode));
-    });
+            .then(data => {
+                console.log(data);
+                res.send({data: data.toString()})
+            })
+            .catch(err => res.send({data: err.message}));
+    })
+        .catch(err => res.status({data: err.message}));
 });
