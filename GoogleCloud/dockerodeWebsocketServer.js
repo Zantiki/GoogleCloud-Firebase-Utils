@@ -103,13 +103,15 @@ async function execute(command, container) {
     });
     return new Promise(async (resolve, reject) => {
         console.log("Creating promise");
-        setTimeout(function () {
-            reject(new Error("Compile timed out"));
-        }, 30000);
-
+        if (command.contains("import os")) {
+            reject(new Error("Forbidden line of code"))
+        }
         await exec.start(async (err, stream) => {
-            if (err) return reject();
+            if (err) reject();
             let message = '';
+            setTimeout(function () {
+                reject(new Error("Compile timed out"));
+            }, 20000);
             console.log("listening for data");
             stream.on('data', chunk => {
                 //message = chunk.toString();
