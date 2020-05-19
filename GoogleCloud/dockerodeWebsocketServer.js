@@ -103,7 +103,7 @@ async function execute(command, container) {
     });
     return new Promise(async (resolve, reject) => {
         console.log("Creating promise");
-        if (command.contains("import os")) {
+        if (command[2].contains("import os")) {
             reject(new Error("Forbidden line of code"))
         }
         await exec.start(async (err, stream) => {
