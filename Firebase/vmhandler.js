@@ -24,25 +24,28 @@ async function pingVM(ip) {
 
 function getVMIP(vmName) {
     let vms = [];
-    return compute.getVMs().then(function (data) {
-        vms = data[0];
-        console.log("got vms");
-        //console.log(vms);
+    return new Promise(async (resolve, reject) => {
+        compute.getVMs().then(data => {
+            vms = data[0];
+            console.log("got vms");
+            //console.log(vms);
 
-        if (vms.length > 0) {
-            vms.map(vm => {
-                console.log(vm);
-                if ((vm.metadata.name === vmName) && vm.metadata.status === "RUNNING") {
-                    console.log(vm.metadata.networkInterfaces[0].accessConfigs[0].natIP);
-                    return vm.metadata.networkInterfaces[0].accessConfigs[0].natIP;
-                }
-            })
-            return "no active vms";
-        }
+            if (vms.length > 0) {
+                vms.map(vm => {
+                    console.log(vm);
+                    if ((vm.metadata.name === vmName) && vm.metadata.status === "RUNNING") {
+                        console.log(vm.metadata.networkInterfaces[0].accessConfigs[0].natIP);
+                        resolve(vm.metadata.networkInterfaces[0].accessConfigs[0].natIP);
+                    }
+                })
+            }
+            reject();
 
-    }).catch(err => {
-        console.log(err);
-        return err.toString();
+        }).catch(err => {
+            console.log(err);
+            reject();
+        });
+
     });
 
 }
