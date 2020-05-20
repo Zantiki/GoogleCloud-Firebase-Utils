@@ -2,9 +2,14 @@
 const Compute = require('@google-cloud/compute');
 const uuidv4 = require('uuid');
 var ping = require('ping');
-const path = require('net');
+const net = require('net');
+
 const path = require('path');
 const serviceKey = path.join(__dirname, './ce_credential.json');
+
+//Todo: Fix service keys
+//Todo: set project id and vm name
+//Todo: set project zone
 
 
 const compute = new Compute({
@@ -13,13 +18,30 @@ const compute = new Compute({
     }
 );
 
-const zone = compute.zone('us-central1-a');
+const zone = compute.zone('europe-north1-a');
 
 async function pingVM(ip) {
     let host = ip;
     console.log("Pinging: "+ip);
     let msg = await ping.promise.probe(host);
     console.log("Connection: "+msg);
+}
+
+function resetVM(vmName) {
+    const vm = zone.vm(vmName);
+
+    vm.get().then(data => {
+        let vm1 = data[0];
+        if (vm1.metadata.status === "RUNNING") {
+            vm1.reset()
+                .catch(err => console.log(err.message));
+        } else {
+            vm1.start()
+                .catch(err => console.log(err.message));
+        }
+
+    })
+        .catch(err => console.log(err.message));
 }
 
 function getVMIP(vmName) {
@@ -39,11 +61,11 @@ function getVMIP(vmName) {
                     }
                 })
             }
-            reject();
+            reject(new Error("VM is off, restarting"));
 
         }).catch(err => {
             console.log(err);
-            reject();
+            reject(new Error("Error fetching VMs"));
         });
 
     });
@@ -146,9 +168,7 @@ async function test(){
     //let name = await createVM("print('hello world!')");
    // await deleteVM(name);
     console.log("running test");
-    getVMIP("custom-server");
+    resetVM("custom-server");
 }
 
-test();
-
-module.exports = {createVM, getVMIP, connectAndCompile};
+module.exports = {createVM, getVMIP, connectAndCompile, resetVM};
