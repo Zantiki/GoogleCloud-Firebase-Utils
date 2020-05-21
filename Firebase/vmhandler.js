@@ -32,9 +32,10 @@ function resetVM(vmName) {
 
     vm.get().then(data => {
         let vm1 = data[0];
+        console.log(vm1.metadata.status);
         if (vm1.metadata.status === "RUNNING") {
-            vm1.reset()
-                .catch(err => console.log(err.message));
+            /*vm1.reset()
+                .catch(err => console.log(err.message));*/
         } else {
             vm1.start()
                 .catch(err => console.log(err.message));
@@ -171,4 +172,5 @@ async function test(){
     resetVM("custom-server");
 }
 
+test();
 module.exports = {createVM, getVMIP, connectAndCompile, resetVM};

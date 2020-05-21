@@ -111,7 +111,7 @@ async function execute(command, container) {
             let message = '';
             setTimeout(function () {
                 reject(new Error("Compile timed out"));
-            }, 20000);
+            }, 10000);
             console.log("listening for data");
             stream.on('data', chunk => {
                 //message = chunk.toString();
@@ -141,7 +141,10 @@ function compile(code, conn){
     pyDocker.createContainer({
         Image: 'python',
         Tty: true,
-        Cmd: ['/bin/bash']
+        Cmd: ['/bin/bash'],
+        HostConfig: {
+            Memory: 256
+        }
     }).then(function(container) {
         return container.start(function(err, data){
             return execute(["python", "-c", cmd], container)
