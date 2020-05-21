@@ -40,6 +40,7 @@ server = net.createServer(conn => {
                     ];
 
                     conn.write(responseHeaders.join("\r\n") + "\r\n\r\n");
+                    console.log(clients.length);
                     clients.push(conn);
                 }
             });
