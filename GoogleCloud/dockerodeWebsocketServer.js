@@ -146,6 +146,7 @@ function compile(code, conn){
             Memory: 5000
         }
     }).then(function(container) {
+        console.log(container);
         return container.start(function(err, data){
             return execute(["python", "-c", cmd], container)
                 .then(message => {
