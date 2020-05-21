@@ -143,7 +143,7 @@ function compile(code, conn){
         Tty: true,
         Cmd: ['/bin/bash'],
         HostConfig: {
-            Memory: 256
+            Memory: 4000
         }
     }).then(function(container) {
         return container.start(function(err, data){
