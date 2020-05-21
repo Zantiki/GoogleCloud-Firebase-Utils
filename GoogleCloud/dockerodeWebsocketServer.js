@@ -142,6 +142,9 @@ function compile(code, conn){
         Image: 'python',
         Tty: true,
         Cmd: ['/bin/bash'],
+        HostConfig: {
+            Memory: 0
+        }
     }).then(function(container) {
         console.log(container);
         return container.start(function(err, data){
